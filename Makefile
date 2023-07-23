@@ -1,8 +1,6 @@
 CC:=gcc
 MKDIR:=mkdir
 RM:=rm -f
-BIN:=bin
-SRC:=src
 CP:=cp -f
 
 CFLAGS:=-g -O0 -Wall -std=c99 -DPLATFORM_DESKTOP
@@ -12,26 +10,17 @@ ifdef release
 CFLAGS:=-O2 -Wall -std=c99 -DNDEBUG -DPLATFORM_DESKTOP
 endif
 
-SRCS:=$(wildcard $(SRC)/*.c)
-OBJS:=$(patsubst $(SRC)/%.c, $(BIN)/%.o, $(SRCS))
-EXEC:=$(BIN)/reticle
+bin/reticle: src/main.c | bin 
+	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
 
-all: $(EXEC)
-
-$(EXEC): $(OBJS) | $(BIN) 
-	$(CC) $(OBJS) -o $@ $(LDFLAGS)
-
-$(BIN)/%.o: $(SRC)/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(BIN):
-	$(MKDIR) $(BIN)
+bin:
+	$(MKDIR) bin
 
 clean:
-	$(RM) $(BIN)/*
+	$(RM) bin/*
 
 install:
-	$(CP) $(EXEC) /usr/local/bin/
+	$(CP) bin/reticle /usr/local/bin/
 
 uninstall:
 	$(RM) /usr/local/bin/reticle
