@@ -1,24 +1,23 @@
 #include <raylib.h>
 
 int main(void) {
-  const int screenWidth = 800;
-  const int screenHeight = 450;
+  const int windowSize = 32;
+  const int halfWindowSize = windowSize / 2;
 
-  InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+  SetConfigFlags(FLAG_WINDOW_TRANSPARENT | FLAG_WINDOW_UNDECORATED |
+                 FLAG_WINDOW_TOPMOST | FLAG_WINDOW_MOUSE_PASSTHROUGH |
+                 FLAG_WINDOW_UNFOCUSED);
+  InitWindow(windowSize, windowSize, "reticle");
+  SetTargetFPS(1);
 
-  SetTargetFPS(15);
   while (!WindowShouldClose()) {
     BeginDrawing();
-
-    ClearBackground(RAYWHITE);
-
-    DrawText("Congrats! You created your first window!", 190, 200, 20,
-             LIGHTGRAY);
-
+    ClearBackground(BLANK);
+    DrawRectangle(0, halfWindowSize - 1, windowSize, 2, WHITE);
+    DrawRectangle(halfWindowSize - 1, 0, 2, windowSize, WHITE);
     EndDrawing();
   }
 
   CloseWindow();
-
   return 0;
 }

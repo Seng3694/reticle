@@ -3,6 +3,7 @@ MKDIR:=mkdir
 RM:=rm -f
 BIN:=bin
 SRC:=src
+CP:=cp -f
 
 CFLAGS:=-g -O0 -Wall -std=c99 -DPLATFORM_DESKTOP
 LDFLAGS:=-lraylib -lm -lpthread -ldl -lrt -lX11
@@ -29,4 +30,10 @@ $(BIN):
 clean:
 	$(RM) $(BIN)/*
 
-.PHONY: all clean 
+install:
+	$(CP) $(EXEC) /usr/local/bin/
+
+uninstall:
+	$(RM) /usr/local/bin/reticle
+
+.PHONY: all clean install uninstall
